@@ -8,6 +8,7 @@ import sys, time, webbrowser, json
 from ConfigParser import SafeConfigParser
 from ast import literal_eval
 from datetime import datetime
+from urllib import urlencode
 
 config = SafeConfigParser()
 config.read('config.ini')
@@ -146,6 +147,7 @@ def tokens_reset():
     config.set('tokens', 'access_token', '')
     config.set('tokens', 'refresh_token', '')
     config.set('tokens', 'expiration_stamp', '')
+    config.set('tokens', 'expiration_time', '')
 
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
@@ -279,10 +281,11 @@ if __name__ == '__main__':
                 try:
                     post = sys.argv[3]
                     post = literal_eval(post)
+                    # if isinstance(post, )
                 except IndexError:
                     post = None
 
-                response = requests.get(url, headers=request_headers(), data=post)
+                response = requests.get(url, headers=request_headers(), data=urlencode(post))
 
                 if print_to_console:
 
