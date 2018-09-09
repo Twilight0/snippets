@@ -26,7 +26,7 @@ is_py2 = (sys.version_info[0] == 2)
 is_py3 = (sys.version_info[0] == 3)
 
 if sys.version_info < (2, 7, 0):
-    from tulip.ordereddict import OrderedDict
+    from ordereddict import OrderedDict
 else:
     from collections import OrderedDict
 
@@ -62,14 +62,15 @@ try:
 except ImportError:
     from pysqlite2 import dbapi2 as database
 
-# Python 2
+# Python 2:
 try:
     from urlparse import urlparse, urlunparse, urljoin, parse_qsl, urlsplit, urlunsplit, parse_qs
-    from urllib import quote, unquote, urlencode, URLopener, quote_plus, unquote_plus
+    from urllib import quote, unquote, urlencode, URLopener, quote_plus, unquote_plus, addinfourl
     import Queue as queue
     import cookielib
     import urllib2
     import BaseHTTPServer
+    from SocketServer import ThreadingMixIn
     from HTMLParser import HTMLParser
     unescape = HTMLParser().unescape
 # Python 3:
@@ -79,10 +80,12 @@ except ImportError:
     import urllib.request as urllib2
     URLopener = urllib2.URLopener
     import http.server as BaseHTTPServer
+    from socketserver import ThreadingMixIn
     from urllib.parse import (
-        urlparse, urlunparse, urljoin, quote, unquote, parse_qsl, urlencode, urlsplit, urlunsplit, unquote_plus,
-        quote_plus
+        urlparse, urlunparse, urljoin, quote, unquote, parse_qsl, parse_qs, urlencode, urlsplit, urlunsplit,
+        unquote_plus, quote_plus
     )
+    from urllib.response import addinfourl
     import queue
 finally:
     urlopen = urllib2.urlopen
@@ -93,5 +96,5 @@ __all__ = [
     "is_py2", "is_py3", "str", "bytes", "urlparse", "urlunparse", "urljoin", "parse_qsl", "quote", "unquote", "queue",
     "range", "urlencode", "izip", "urlsplit", "urlunsplit", "cookielib", "URLopener", "quote_plus", "unescape",
     "parse_qs", "unquote_plus", "urllib2", "unicode", "database", "basestring", "urlopen", "Request", "OrderedDict",
-    "iteritems", "BaseHTTPServer"
+    "iteritems", "BaseHTTPServer", "ThreadingMixIn", "addinfourl"
 ]
